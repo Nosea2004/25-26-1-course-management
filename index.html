@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025/26学年课程管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .urgent-tasks {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .urgent-tasks h2 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .task-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .task-item {
+            background: rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            border-left: 4px solid #fff;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .course-card.priority {
+            border-left: 6px solid #e74c3c;
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .course-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2c3e50;
+            flex: 1;
+        }
+
+        .course-code {
+            background: #3498db;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .course-details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .course-details.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .week-schedule {
+            display: grid;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .week-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+
+        .week-number {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .week-content {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .due-dates {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .due-dates h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .due-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #ffeaa7;
+        }
+
+        .due-item:last-child {
+            border-bottom: none;
+        }
+
+        .due-date {
+            font-weight: bold;
+            color: #d63031;
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .semester-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .course-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 2025/26学年课程管理系统</h1>
+        
+        <div class="semester-info">
+            <h3>当前学期：2025/26学年</h3>
+            <p>今日：<span id="current-date"></span></p>
+        </div>
+
+        <!-- 紧急任务板块 -->
+        <div class="urgent-tasks">
+            <h2>🔥 近期待办事项</h2>
+            <div class="task-list" id="taskList">
+                <div class="task-item">
+                    <strong>数学作业</strong> - 完成第3章练习题 (本周五前)
+                </div>
+                <div class="task-item">
+                    <strong>材料科学实验报告</strong> - 提交实验1报告 (下周二前)
+                </div>
+                <div class="task-item">
+                    <strong>工程沟通技能</strong> - 准备presentation (下周四)
+                </div>
+            </div>
+        </div>
+
+        <!-- 课程网格 -->
+        <div class="course-grid">
+            <!-- 高级工程数学与数值方法 (优先课程) -->
+            <div class="course-card priority" onclick="toggleCourse('math')">
+                <div class="course-header">
+                    <div class="course-title">Advanced Engineering Mathematics and Numerical Methods</div>
+                    <div class="course-code">XJMS2100</div>
+                    <span class="toggle-icon" id="math-icon">▼</span>
+                </div>
+                <div class="course-details" id="math-details">
+                    <div class="due-dates">
+                        <h4>📅 重要截止日期</h4>
+                        <div class="due-item">
+                            <span>作业1</span>
+                            <span class="due-date">2025-10-15</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期中考试</span>
+                            <span class="due-date">2025-11-20</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期末考试</span>
+                            <span class="due-date">2025-12-18</span>
+                        </div>
+                    </div>
+                    <div class="week-schedule">
+                        <div class="week-item">
+                            <div class="week-number">第1-2周</div>
+                            <div class="week-content">线性代数复习，矩阵运算</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第3-4周</div>
+                            <div class="week-content">微分方程，拉普拉斯变换</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第5-6周</div>
+                            <div class="week-content">数值方法基础，插值与逼近</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第7-8周</div>
+                            <div class="week-content">数值积分与微分</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 材料化学与实用材料科学2 (优先课程) -->
+            <div class="course-card priority" onclick="toggleCourse('materials')">
+                <div class="course-header">
+                    <div class="course-title">Chemistry of Materials and Practical Materials Science 2</div>
+                    <div class="course-code">XJMS2371</div>
+                    <span class="toggle-icon" id="materials-icon">▼</span>
+                </div>
+                <div class="course-details" id="materials-details">
+                    <div class="due-dates">
+                        <h4>📅 重要截止日期</h4>
+                        <div class="due-item">
+                            <span>实验报告1</span>
+                            <span class="due-date">2025-10-10</span>
+                        </div>
+                        <div class="due-item">
+                            <span>课程项目</span>
+                            <span class="due-date">2025-11-25</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期末考试</span>
+                            <span class="due-date">2025-12-20</span>
+                        </div>
+                    </div>
+                    <div class="week-schedule">
+                        <div class="week-item">
+                            <div class="week-number">第1-2周</div>
+                            <div class="week-content">材料结构与性能关系</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第3-4周</div>
+                            <div class="week-content">晶体结构分析</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第5-6周</div>
+                            <div class="week-content">材料表征技术</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第7-8周</div>
+                            <div class="week-content">实验技能训练</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 材料科学基础化学 (优先课程) -->
+            <div class="course-card priority" onclick="toggleCourse('chemistry')">
+                <div class="course-header">
+                    <div class="course-title">Fundamental Chemistry for Materials Science</div>
+                    <div class="course-code">XJMS2372</div>
+                    <span class="toggle-icon" id="chemistry-icon">▼</span>
+                </div>
+                <div class="course-details" id="chemistry-details">
+                    <div class="due-dates">
+                        <h4>📅 重要截止日期</h4>
+                        <div class="due-item">
+                            <span>化学实验报告</span>
+                            <span class="due-date">2025-10-08</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期中测试</span>
+                            <span class="due-date">2025-11-15</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期末考试</span>
+                            <span class="due-date">2025-12-22</span>
+                        </div>
+                    </div>
+                    <div class="week-schedule">
+                        <div class="week-item">
+                            <div class="week-number">第1-2周</div>
+                            <div class="week-content">原子结构与化学键</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第3-4周</div>
+                            <div class="week-content">热力学与动力学</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第5-6周</div>
+                            <div class="week-content">电化学基础</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第7-8周</div>
+                            <div class="week-content">材料化学应用</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 材料合成与表征 -->
+            <div class="course-card" onclick="toggleCourse('synthesis')">
+                <div class="course-header">
+                    <div class="course-title">Materials Synthesis and Characterisation</div>
+                    <div class="course-code">XJMS2710</div>
+                    <span class="toggle-icon" id="synthesis-icon">▼</span>
+                </div>
+                <div class="course-details" id="synthesis-details">
+                    <div class="due-dates">
+                        <h4>📅 重要截止日期</h4>
+                        <div class="due-item">
+                            <span>合成实验报告</span>
+                            <span class="due-date">2025-10-12</span>
+                        </div>
+                        <div class="due-item">
+                            <span>表征分析报告</span>
+                            <span class="due-date">2025-11-30</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期末项目</span>
+                            <span class="due-date">2025-12-15</span>
+                        </div>
+                    </div>
+                    <div class="week-schedule">
+                        <div class="week-item">
+                            <div class="week-number">第1-2周</div>
+                            <div class="week-content">材料合成方法概述</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第3-4周</div>
+                            <div class="week-content">溶胶-凝胶法合成</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第5-6周</div>
+                            <div class="week-content">X射线衍射分析</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第7-8周</div>
+                            <div class="week-content">电子显微镜表征</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 工程沟通技能2 -->
+            <div class="course-card" onclick="toggleCourse('communication')">
+                <div class="course-header">
+                    <div class="course-title">Engineering Communication Skills 2</div>
+                    <div class="course-code">XJFY2010</div>
+                    <span class="toggle-icon" id="communication-icon">▼</span>
+                </div>
+                <div class="course-details" id="communication-details">
+                    <div class="due-dates">
+                        <h4>📅 重要截止日期</h4>
+                        <div class="due-item">
+                            <span>演讲1</span>
+                            <span class="due-date">2025-10-05</span>
+                        </div>
+                        <div class="due-item">
+                            <span>技术报告</span>
+                            <span class="due-date">2025-11-10</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期末演讲</span>
+                            <span class="due-date">2025-12-12</span>
+                        </div>
+                    </div>
+                    <div class="week-schedule">
+                        <div class="week-item">
+                            <div class="week-number">第1-2周</div>
+                            <div class="week-content">技术写作基础</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第3-4周</div>
+                            <div class="week-content">演讲技巧训练</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第5-6周</div>
+                            <div class="week-content">团队协作与沟通</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第7-8周</div>
+                            <div class="week-content">专业报告撰写</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 过程安全与环境工程 -->
+            <div class="course-card" onclick="toggleCourse('safety')">
+                <div class="course-header">
+                    <div class="course-title">Process Safety and Environmental Engineering</div>
+                    <div class="course-code">XJMS2310</div>
+                    <span class="toggle-icon" id="safety-icon">▼</span>
+                </div>
+                <div class="course-details" id="safety-details">
+                    <div class="due-dates">
+                        <h4>📅 重要截止日期</h4>
+                        <div class="due-item">
+                            <span>安全评估报告</span>
+                            <span class="due-date">2025-10-20</span>
+                        </div>
+                        <div class="due-item">
+                            <span>环境影响分析</span>
+                            <span class="due-date">2025-11-28</span>
+                        </div>
+                        <div class="due-item">
+                            <span>期末考试</span>
+                            <span class="due-date">2025-12-25</span>
+                        </div>
+                    </div>
+                    <div class="week-schedule">
+                        <div class="week-item">
+                            <div class="week-number">第1-2周</div>
+                            <div class="week-content">工业安全基础</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第3-4周</div>
+                            <div class="week-content">风险评估方法</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第5-6周</div>
+                            <div class="week-content">环境保护技术</div>
+                        </div>
+                        <div class="week-item">
+                            <div class="week-number">第7-8周</div>
+                            <div class="week-content">可持续发展策略</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 显示当前日期
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('zh-CN');
+
+        // 切换课程详情显示
+        function toggleCourse(courseId) {
+            const details = document.getElementById(courseId + '-details');
+            const icon = document.getElementById(courseId + '-icon');
+            
+            if (details.classList.contains('active')) {
+                details.classList.remove('active');
+                icon.classList.remove('rotated');
+            } else {
+                details.classList.add('active');
+                icon.classList.add('rotated');
+            }
+        }
+
+        // 添加任务功能
+        function addTask() {
+            const taskText = prompt('请输入新的待办事项：');
+            if (taskText && taskText.trim()) {
+                const taskList = document.getElementById('taskList');
+                const newTask = document.createElement('div');
+                newTask.className = 'task-item';
+                newTask.innerHTML = `<strong>新任务</strong> - ${taskText.trim()}`;
+                taskList.appendChild(newTask);
+            }
+        }
+
+        // 键盘快捷键
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'n') {
+                e.preventDefault();
+                addTask();
+            }
+        });
+
+        // 自动更新截止日期提醒
+        function checkDueDates() {
+            const today = new Date();
+            const dueItems = document.querySelectorAll('.due-date');
+            
+            dueItems.forEach(item => {
+                const dueDate = new Date(item.textContent);
+                const timeDiff = dueDate - today;
+                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+                
+                if (daysDiff <= 7 && daysDiff > 0) {
+                    item.style.backgroundColor = '#ff6b6b';
+                    item.style.color = 'white';
+                    item.style.padding = '2px 6px';
+                    item.style.borderRadius = '4px';
+                } else if (daysDiff <= 0) {
+                    item.style.backgroundColor = '#d63031';
+                    item.style.color = 'white';
+                    item.style.padding = '2px 6px';
+                    item.style.borderRadius = '4px';
+                }
+            });
+        }
+
+        // 页面加载时检查截止日期
+        window.addEventListener('load', checkDueDates);
+    </script>
+</body>
+</html>
