@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025/26学年课程管理</title>
+    <title>留学备考计划 | 2025-2026</title>
     <style>
         * {
             margin: 0;
@@ -12,560 +12,710 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: 'Courier New', monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
             padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
+        header {
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
         h1 {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
             font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .urgent-tasks {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-        }
-
-        .urgent-tasks h2 {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .task-list {
-            display: grid;
-            gap: 10px;
-        }
-
-        .task-item {
-            background: rgba(255,255,255,0.2);
-            padding: 12px;
-            border-radius: 8px;
-            color: white;
-            border-left: 4px solid #fff;
-        }
-
-        .course-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
-
-        .course-card {
-            background: rgba(255,255,255,0.95);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
-        }
-
-        .course-card.priority {
-            border-left: 6px solid #e74c3c;
-        }
-
-        .course-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .course-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #2c3e50;
-            flex: 1;
-        }
-
-        .course-code {
-            background: #3498db;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            margin-left: 10px;
-        }
-
-        .course-details {
-            display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid #ecf0f1;
-        }
-
-        .course-details.active {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .week-schedule {
-            display: grid;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .week-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-        }
-
-        .week-number {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .week-content {
-            color: #7f8c8d;
-            font-size: 0.9em;
-        }
-
-        .due-dates {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-
-        .due-dates h4 {
-            color: #856404;
+            font-weight: 300;
+            letter-spacing: 2px;
             margin-bottom: 10px;
         }
 
-        .due-item {
+        .subtitle {
+            color: #888;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        /* 时间线样式 */
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #333;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #fff;
+            background: #0a0a0a;
+            border-radius: 50%;
+        }
+
+        .timeline-item.active::before {
+            background: #fff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        .phase-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .phase-date {
+            color: #666;
+            font-size: 0.85em;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .phase-goal {
+            background: #111;
+            border-left: 3px solid #444;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .phase-goal h4 {
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .phase-goal ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .phase-goal li::before {
+            content: '>';
+            margin-right: 10px;
+            color: #666;
+        }
+
+        /* 日历样式 */
+        .calendar-container {
+            margin: 40px 0;
+        }
+
+        .month-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .month-btn {
+            background: #111;
+            border: 1px solid #333;
+            color: #e0e0e0;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .month-btn:hover {
+            background: #222;
+            border-color: #555;
+        }
+
+        .month-btn.active {
+            background: #fff;
+            color: #0a0a0a;
+            border-color: #fff;
+        }
+
+        .calendar {
+            display: none;
+        }
+
+        .calendar.active {
+            display: block;
+        }
+
+        .calendar-header {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: #333;
+            border: 2px solid #333;
+        }
+
+        .calendar-day-header {
+            background: #111;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .calendar-day {
+            background: #0a0a0a;
+            min-height: 100px;
+            padding: 8px;
+            position: relative;
+        }
+
+        .calendar-day.empty {
+            background: #050505;
+        }
+
+        .day-number {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .day-tasks {
+            font-size: 0.75em;
+            line-height: 1.4;
+        }
+
+        .task-indicator {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background: #666;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .calendar-day.high-intensity {
+            border-left: 3px solid #fff;
+        }
+
+        .calendar-day.exam-period {
+            border-left: 3px solid #888;
+        }
+
+        /* 详细任务表格 */
+        .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: #111;
+        }
+
+        .task-table th,
+        .task-table td {
+            border: 1px solid #333;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .task-table th {
+            background: #0a0a0a;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .task-table tr:hover {
+            background: #151515;
+        }
+
+        /* 关键时间节点 */
+        .milestones {
+            margin: 40px 0;
+        }
+
+        .milestone-item {
+            background: #111;
+            border-left: 4px solid #fff;
+            padding: 15px 20px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #ffeaa7;
+            align-items: center;
         }
 
-        .due-item:last-child {
-            border-bottom: none;
+        .milestone-date {
+            font-weight: 600;
+            min-width: 150px;
         }
 
-        .due-date {
-            font-weight: bold;
-            color: #d63031;
+        .milestone-content {
+            flex: 1;
+            padding: 0 20px;
         }
 
-        .toggle-icon {
-            transition: transform 0.3s ease;
+        .milestone-note {
+            color: #666;
+            font-size: 0.85em;
+            min-width: 200px;
+            text-align: right;
         }
 
-        .toggle-icon.rotated {
-            transform: rotate(180deg);
-        }
-
-        .semester-info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: white;
-        }
-
+        /* 响应式设计 */
         @media (max-width: 768px) {
-            .course-grid {
-                grid-template-columns: 1fr;
+            .calendar-grid {
+                font-size: 0.8em;
             }
             
-            h1 {
-                font-size: 2em;
+            .calendar-day {
+                min-height: 80px;
+                padding: 5px;
             }
+
+            .milestone-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .milestone-note {
+                text-align: left;
+                margin-top: 10px;
+            }
+        }
+
+        /* 统计面板 */
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .stat-card {
+            background: #111;
+            border: 1px solid #333;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+        }
+
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+            text-align: center;
+            color: #666;
+            font-size: 0.85em;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>📚 2025/26学年课程管理系统</h1>
-        
-        <div class="semester-info">
-            <h3>当前学期：2025/26学年</h3>
-            <p>今日：<span id="current-date"></span></p>
-        </div>
+        <header>
+            <h1>留学备考计划</h1>
+            <div class="subtitle">STUDY ABROAD PREPARATION ROADMAP / 2025.10 - 2026.08</div>
+        </header>
 
-        <!-- 紧急任务板块 -->
-        <div class="urgent-tasks">
-            <h2>🔥 近期待办事项</h2>
-            <div class="task-list" id="taskList">
-                <div class="task-item">
-                    <strong>数学作业</strong> - 完成第3章练习题 (本周五前)
-                </div>
-                <div class="task-item">
-                    <strong>材料科学实验报告</strong> - 提交实验1报告 (下周二前)
-                </div>
-                <div class="task-item">
-                    <strong>工程沟通技能</strong> - 准备presentation (下周四)
-                </div>
+        <!-- 统计面板 -->
+        <div class="stats-panel">
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">总备考月数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">备考阶段</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">关键考试</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">预计学习小时</div>
             </div>
         </div>
 
-        <!-- 课程网格 -->
-        <div class="course-grid">
-            <!-- 高级工程数学与数值方法 (优先课程) -->
-            <div class="course-card priority" onclick="toggleCourse('math')">
-                <div class="course-header">
-                    <div class="course-title">Advanced Engineering Mathematics and Numerical Methods</div>
-                    <div class="course-code">XJMS2100</div>
-                    <span class="toggle-icon" id="math-icon">▼</span>
+        <!-- 时间线 -->
+        <section class="timeline">
+            <div class="timeline-item active">
+                <h3 class="phase-title">阶段一：准备阶段</h3>
+                <div class="phase-date">2025年10月 - 11月下旬 / 1.5个月 / 日均2.5-3小时</div>
+                <div class="phase-goal">
+                    <h4>核心目标</h4>
+                    <ul>
+                        <li>雅思基础能力打底（词汇+语法）</li>
+                        <li>GRE核心词汇启动（避免后期堆积）</li>
+                        <li>维持学校课程成绩，为期末减压</li>
+                    </ul>
                 </div>
-                <div class="course-details" id="math-details">
-                    <div class="due-dates">
-                        <h4>📅 重要截止日期</h4>
-                        <div class="due-item">
-                            <span>作业1</span>
-                            <span class="due-date">2025-10-15</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期中考试</span>
-                            <span class="due-date">2025-11-20</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期末考试</span>
-                            <span class="due-date">2025-12-18</span>
-                        </div>
-                    </div>
-                    <div class="week-schedule">
-                        <div class="week-item">
-                            <div class="week-number">第1-2周</div>
-                            <div class="week-content">线性代数复习，矩阵运算</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第3-4周</div>
-                            <div class="week-content">微分方程，拉普拉斯变换</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第5-6周</div>
-                            <div class="week-content">数值方法基础，插值与逼近</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第7-8周</div>
-                            <div class="week-content">数值积分与微分</div>
-                        </div>
-                    </div>
-                </div>
+                <table class="task-table">
+                    <tr>
+                        <th>模块</th>
+                        <th>具体内容</th>
+                    </tr>
+                    <tr>
+                        <td>雅思基础</td>
+                        <td>每天背诵《雅思核心3500词》150个<br>每天1个写作练习，阅读文章</td>
+                    </tr>
+                    <tr>
+                        <td>GRE词汇</td>
+                        <td>每天背诵《GRE核心3000词》100个</td>
+                    </tr>
+                    <tr>
+                        <td>学校课程</td>
+                        <td>每日课后1小时整理笔记<br>周末2小时复习本周课程</td>
+                    </tr>
+                </table>
             </div>
 
-            <!-- 材料化学与实用材料科学2 (优先课程) -->
-            <div class="course-card priority" onclick="toggleCourse('materials')">
-                <div class="course-header">
-                    <div class="course-title">Chemistry of Materials and Practical Materials Science 2</div>
-                    <div class="course-code">XJMS2371</div>
-                    <span class="toggle-icon" id="materials-icon">▼</span>
+            <div class="timeline-item">
+                <h3 class="phase-title">阶段二：期末考试</h3>
+                <div class="phase-date">2025年12月 - 2026年1月中旬 / 1.5个月 / 日均1-1.5小时</div>
+                <div class="phase-goal">
+                    <h4>核心目标</h4>
+                    <ul>
+                        <li>优先保障期末考试，提高绩点</li>
+                        <li>维持语言/GRE学习手感</li>
+                        <li>避免前期积累遗忘</li>
+                    </ul>
                 </div>
-                <div class="course-details" id="materials-details">
-                    <div class="due-dates">
-                        <h4>📅 重要截止日期</h4>
-                        <div class="due-item">
-                            <span>实验报告1</span>
-                            <span class="due-date">2025-10-10</span>
-                        </div>
-                        <div class="due-item">
-                            <span>课程项目</span>
-                            <span class="due-date">2025-11-25</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期末考试</span>
-                            <span class="due-date">2025-12-20</span>
-                        </div>
-                    </div>
-                    <div class="week-schedule">
-                        <div class="week-item">
-                            <div class="week-number">第1-2周</div>
-                            <div class="week-content">材料结构与性能关系</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第3-4周</div>
-                            <div class="week-content">晶体结构分析</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第5-6周</div>
-                            <div class="week-content">材料表征技术</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第7-8周</div>
-                            <div class="week-content">实验技能训练</div>
-                        </div>
-                    </div>
-                </div>
+                <table class="task-table">
+                    <tr>
+                        <th>模块</th>
+                        <th>具体内容</th>
+                    </tr>
+                    <tr>
+                        <td>期末考试</td>
+                        <td>集中复习，过一遍知识点<br>大量刷题，总结考点</td>
+                    </tr>
+                    <tr>
+                        <td>语言维持</td>
+                        <td>雅思：每天复习100个旧词<br>GRE：每天复习100个旧词，不新增</td>
+                    </tr>
+                </table>
             </div>
 
-            <!-- 材料科学基础化学 (优先课程) -->
-            <div class="course-card priority" onclick="toggleCourse('chemistry')">
-                <div class="course-header">
-                    <div class="course-title">Fundamental Chemistry for Materials Science</div>
-                    <div class="course-code">XJMS2372</div>
-                    <span class="toggle-icon" id="chemistry-icon">▼</span>
+            <div class="timeline-item">
+                <h3 class="phase-title">阶段三：雅思冲刺</h3>
+                <div class="phase-date">2026年1月下旬 - 2月下旬 / 1个月 / 日均6-8小时</div>
+                <div class="phase-goal">
+                    <h4>核心目标</h4>
+                    <ul>
+                        <li>雅思全面强化，目标6.5+</li>
+                        <li>完成雅思考试（2月中旬）</li>
+                        <li>预留1次刷分机会</li>
+                    </ul>
                 </div>
-                <div class="course-details" id="chemistry-details">
-                    <div class="due-dates">
-                        <h4>📅 重要截止日期</h4>
-                        <div class="due-item">
-                            <span>化学实验报告</span>
-                            <span class="due-date">2025-10-08</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期中测试</span>
-                            <span class="due-date">2025-11-15</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期末考试</span>
-                            <span class="due-date">2025-12-22</span>
-                        </div>
-                    </div>
-                    <div class="week-schedule">
-                        <div class="week-item">
-                            <div class="week-number">第1-2周</div>
-                            <div class="week-content">原子结构与化学键</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第3-4周</div>
-                            <div class="week-content">热力学与动力学</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第5-6周</div>
-                            <div class="week-content">电化学基础</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第7-8周</div>
-                            <div class="week-content">材料化学应用</div>
-                        </div>
-                    </div>
-                </div>
+                <table class="task-table">
+                    <tr>
+                        <th>时间段</th>
+                        <th>具体任务</th>
+                    </tr>
+                    <tr>
+                        <td>上午 9:00-12:00</td>
+                        <td>听力：1套真题（精听错题）<br>阅读：1套真题（分析题型）</td>
+                    </tr>
+                    <tr>
+                        <td>下午 14:00-16:00</td>
+                        <td>口语：1个话题准备<br>写作：小作文1篇</td>
+                    </tr>
+                    <tr>
+                        <td>晚上 19:00-21:00</td>
+                        <td>复盘当天错题<br>背诵口语/写作素材</td>
+                    </tr>
+                </table>
             </div>
 
-            <!-- 材料合成与表征 -->
-            <div class="course-card" onclick="toggleCourse('synthesis')">
-                <div class="course-header">
-                    <div class="course-title">Materials Synthesis and Characterisation</div>
-                    <div class="course-code">XJMS2710</div>
-                    <span class="toggle-icon" id="synthesis-icon">▼</span>
+            <div class="timeline-item">
+                <h3 class="phase-title">阶段四：GRE备考</h3>
+                <div class="phase-date">2026年3月 - 6月 / 4个月 / 日均3-6小时</div>
+                <div class="phase-goal">
+                    <h4>核心目标</h4>
+                    <ul>
+                        <li>系统攻克GRE三大模块（Verbal/Quant/AW）</li>
+                        <li>6月中旬前完成GRE首考</li>
+                        <li>预留9月刷分机会</li>
+                    </ul>
                 </div>
-                <div class="course-details" id="synthesis-details">
-                    <div class="due-dates">
-                        <h4>📅 重要截止日期</h4>
-                        <div class="due-item">
-                            <span>合成实验报告</span>
-                            <span class="due-date">2025-10-12</span>
-                        </div>
-                        <div class="due-item">
-                            <span>表征分析报告</span>
-                            <span class="due-date">2025-11-30</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期末项目</span>
-                            <span class="due-date">2025-12-15</span>
-                        </div>
-                    </div>
-                    <div class="week-schedule">
-                        <div class="week-item">
-                            <div class="week-number">第1-2周</div>
-                            <div class="week-content">材料合成方法概述</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第3-4周</div>
-                            <div class="week-content">溶胶-凝胶法合成</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第5-6周</div>
-                            <div class="week-content">X射线衍射分析</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第7-8周</div>
-                            <div class="week-content">电子显微镜表征</div>
-                        </div>
-                    </div>
-                </div>
+                <table class="task-table">
+                    <tr>
+                        <th>子阶段</th>
+                        <th>时间</th>
+                        <th>重点任务</th>
+                    </tr>
+                    <tr>
+                        <td>基础夯实</td>
+                        <td>3-4月</td>
+                        <td>Verbal: 每天200个词+10道填空+2篇阅读<br>Quant: 每天15道基础题<br>AW: 每周4篇提纲</td>
+                    </tr>
+                    <tr>
+                        <td>强化突破</td>
+                        <td>5月</td>
+                        <td>Verbal: 三空题+长阅读<br>Quant: 专项薄弱题型<br>AW: 每周2篇完整作文</td>
+                    </tr>
+                    <tr>
+                        <td>冲刺模考</td>
+                        <td>6月</td>
+                        <td>每周2次完整模考<br>专项复盘与补强<br>优化写作模板</td>
+                    </tr>
+                </table>
             </div>
 
-            <!-- 工程沟通技能2 -->
-            <div class="course-card" onclick="toggleCourse('communication')">
-                <div class="course-header">
-                    <div class="course-title">Engineering Communication Skills 2</div>
-                    <div class="course-code">XJFY2010</div>
-                    <span class="toggle-icon" id="communication-icon">▼</span>
+            <div class="timeline-item">
+                <h3 class="phase-title">阶段五：APS准备</h3>
+                <div class="phase-date">2026年7月 - 8月 / 2个月 / 日均4-5小时</div>
+                <div class="phase-goal">
+                    <h4>核心目标</h4>
+                    <ul>
+                        <li>完成APS材料提交与审核</li>
+                        <li>通过APS面试，获取证书</li>
+                        <li>专业知识体系梳理完成</li>
+                    </ul>
                 </div>
-                <div class="course-details" id="communication-details">
-                    <div class="due-dates">
-                        <h4>📅 重要截止日期</h4>
-                        <div class="due-item">
-                            <span>演讲1</span>
-                            <span class="due-date">2025-10-05</span>
-                        </div>
-                        <div class="due-item">
-                            <span>技术报告</span>
-                            <span class="due-date">2025-11-10</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期末演讲</span>
-                            <span class="due-date">2025-12-12</span>
-                        </div>
-                    </div>
-                    <div class="week-schedule">
-                        <div class="week-item">
-                            <div class="week-number">第1-2周</div>
-                            <div class="week-content">技术写作基础</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第3-4周</div>
-                            <div class="week-content">演讲技巧训练</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第5-6周</div>
-                            <div class="week-content">团队协作与沟通</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第7-8周</div>
-                            <div class="week-content">专业报告撰写</div>
-                        </div>
-                    </div>
-                </div>
+                <table class="task-table">
+                    <tr>
+                        <th>阶段</th>
+                        <th>具体内容</th>
+                    </tr>
+                    <tr>
+                        <td>材料准备（前2周）</td>
+                        <td>整理成绩单、课程描述等材料<br>填写申请表，提交审核<br>筛选目标院校和专业</td>
+                    </tr>
+                    <tr>
+                        <td>专业复习（中间4周）</td>
+                        <td>每天复习1门核心课程<br>背诵专业词汇（德语/英语）<br>整理科研经历</td>
+                    </tr>
+                    <tr>
+                        <td>模拟面试（最后2周）</td>
+                        <td>准备高频问题<br>AI模拟面试演练<br>心态调整</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- 关键时间节点 -->
+        <section class="milestones">
+            <h2 style="margin-bottom: 30px; font-weight: 400; letter-spacing: 2px;">关键时间节点</h2>
+            <div class="milestone-item">
+                <div class="milestone-date">2026年2月中旬</div>
+                <div class="milestone-content">雅思首考</div>
+                <div class="milestone-note">提前1个月报名</div>
+            </div>
+            <div class="milestone-item">
+                <div class="milestone-date">2026年3月</div>
+                <div class="milestone-content">雅思成绩复议/刷分（若需）</div>
+                <div class="milestone-note">复议周期4-6周</div>
+            </div>
+            <div class="milestone-item">
+                <div class="milestone-date">2026年6月中旬</div>
+                <div class="milestone-content">GRE首考</div>
+                <div class="milestone-note">提前2个月报名</div>
+            </div>
+            <div class="milestone-item">
+                <div class="milestone-date">2026年7月初</div>
+                <div class="milestone-content">提交APS申请</div>
+                <div class="milestone-note">材料需提前公证翻译</div>
+            </div>
+            <div class="milestone-item">
+                <div class="milestone-date">2026年8月底</div>
+                <div class="milestone-content">APS面试</div>
+                <div class="milestone-note">面试前1周调整心态</div>
+            </div>
+        </section>
+
+        <!-- 日历视图 -->
+        <section class="calendar-container">
+            <h2 style="margin-bottom: 30px; font-weight: 400; letter-spacing: 2px;">月度日历视图</h2>
+            
+            <div class="month-selector">
+                <button class="month-btn active" onclick="showCalendar('2025-10')">2025年10月</button>
+                <button class="month-btn" onclick="showCalendar('2025-11')">2025年11月</button>
+                <button class="month-btn" onclick="showCalendar('2025-12')">2025年12月</button>
+                <button class="month-btn" onclick="showCalendar('2026-01')">2026年1月</button>
+                <button class="month-btn" onclick="showCalendar('2026-02')">2026年2月</button>
+                <button class="month-btn" onclick="showCalendar('2026-03')">2026年3月</button>
+                <button class="month-btn" onclick="showCalendar('2026-04')">2026年4月</button>
+                <button class="month-btn" onclick="showCalendar('2026-05')">2026年5月</button>
+                <button class="month-btn" onclick="showCalendar('2026-06')">2026年6月</button>
+                <button class="month-btn" onclick="showCalendar('2026-07')">2026年7月</button>
+                <button class="month-btn" onclick="showCalendar('2026-08')">2026年8月</button>
             </div>
 
-            <!-- 过程安全与环境工程 -->
-            <div class="course-card" onclick="toggleCourse('safety')">
-                <div class="course-header">
-                    <div class="course-title">Process Safety and Environmental Engineering</div>
-                    <div class="course-code">XJMS2310</div>
-                    <span class="toggle-icon" id="safety-icon">▼</span>
-                </div>
-                <div class="course-details" id="safety-details">
-                    <div class="due-dates">
-                        <h4>📅 重要截止日期</h4>
-                        <div class="due-item">
-                            <span>安全评估报告</span>
-                            <span class="due-date">2025-10-20</span>
-                        </div>
-                        <div class="due-item">
-                            <span>环境影响分析</span>
-                            <span class="due-date">2025-11-28</span>
-                        </div>
-                        <div class="due-item">
-                            <span>期末考试</span>
-                            <span class="due-date">2025-12-25</span>
-                        </div>
-                    </div>
-                    <div class="week-schedule">
-                        <div class="week-item">
-                            <div class="week-number">第1-2周</div>
-                            <div class="week-content">工业安全基础</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第3-4周</div>
-                            <div class="week-content">风险评估方法</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第5-6周</div>
-                            <div class="week-content">环境保护技术</div>
-                        </div>
-                        <div class="week-item">
-                            <div class="week-number">第7-8周</div>
-                            <div class="week-content">可持续发展策略</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <div id="calendar-content"></div>
+        </section>
+
+        <footer>
+            <p>Generated for GitHub Pages | Last Updated: 2025-10-21</p>
+            <p style="margin-top: 10px;">Stay focused. Stay consistent. Success is inevitable.</p>
+        </footer>
     </div>
 
     <script>
-        // 显示当前日期
-        document.getElementById('current-date').textContent = new Date().toLocaleDateString('zh-CN');
+        // 日历数据
+        const calendarData = {
+            '2025-10': {
+                phase: '阶段一：准备阶段',
+                tasks: '雅思词汇150/天 + GRE词汇100/天 + 课程复习',
+                intensity: 'high-intensity',
+                startDay: 21 // 从10月21日开始
+            },
+            '2025-11': {
+                phase: '阶段一：准备阶段',
+                tasks: '雅思词汇150/天 + GRE词汇100/天 + 课程复习',
+                intensity: 'high-intensity'
+            },
+            '2025-12': {
+                phase: '阶段二：期末考试',
+                tasks: '期末复习为主 + 词汇维持100/天',
+                intensity: 'exam-period'
+            },
+            '2026-01': {
+                phase: '阶段二→三：期末→雅思',
+                tasks: '前半月期末 / 后半月雅思冲刺（6-8h/天）',
+                intensity: 'exam-period',
+                special: '1月下旬开始雅思强化'
+            },
+            '2026-02': {
+                phase: '阶段三：雅思冲刺',
+                tasks: '雅思全面强化 6-8h/天',
+                intensity: 'high-intensity',
+                special: '2月中旬雅思考试'
+            },
+            '2026-03': {
+                phase: '阶段四：GRE备考',
+                tasks: 'GRE基础夯实 3-4h/天',
+                intensity: 'high-intensity'
+            },
+            '2026-04': {
+                phase: '阶段四：GRE备考',
+                tasks: 'GRE基础夯实 3-4h/天',
+                intensity: 'high-intensity'
+            },
+            '2026-05': {
+                phase: '阶段四：GRE强化',
+                tasks: 'GRE强化突破 4-5h/天',
+                intensity: 'high-intensity'
+            },
+            '2026-06': {
+                phase: '阶段四：GRE冲刺',
+                tasks: 'GRE模考冲刺 5-6h/天',
+                intensity: 'high-intensity',
+                special: '6月中旬GRE考试'
+            },
+            '2026-07': {
+                phase: '阶段五：APS准备',
+                tasks: 'APS材料+专业复习 4-5h/天',
+                intensity: 'high-intensity',
+                special: '7月初提交APS申请'
+            },
+            '2026-08': {
+                phase: '阶段五：APS准备',
+                tasks: '专业复习+模拟面试 4-5h/天',
+                intensity: 'high-intensity',
+                special: '8月底APS面试'
+            }
+        };
 
-        // 切换课程详情显示
-        function toggleCourse(courseId) {
-            const details = document.getElementById(courseId + '-details');
-            const icon = document.getElementById(courseId + '-icon');
+        function generateCalendar(year, month) {
+            const firstDay = new Date(year, month - 1, 1);
+            const lastDay = new Date(year, month, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDayOfWeek = firstDay.getDay();
             
-            if (details.classList.contains('active')) {
-                details.classList.remove('active');
-                icon.classList.remove('rotated');
-            } else {
-                details.classList.add('active');
-                icon.classList.add('rotated');
-            }
-        }
-
-        // 添加任务功能
-        function addTask() {
-            const taskText = prompt('请输入新的待办事项：');
-            if (taskText && taskText.trim()) {
-                const taskList = document.getElementById('taskList');
-                const newTask = document.createElement('div');
-                newTask.className = 'task-item';
-                newTask.innerHTML = `<strong>新任务</strong> - ${taskText.trim()}`;
-                taskList.appendChild(newTask);
-            }
-        }
-
-        // 键盘快捷键
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'n') {
-                e.preventDefault();
-                addTask();
-            }
-        });
-
-        // 自动更新截止日期提醒
-        function checkDueDates() {
-            const today = new Date();
-            const dueItems = document.querySelectorAll('.due-date');
+            const monthKey = `${year}-${String(month).padStart(2, '0')}`;
+            const monthData = calendarData[monthKey] || {};
             
-            dueItems.forEach(item => {
-                const dueDate = new Date(item.textContent);
-                const timeDiff = dueDate - today;
-                const daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            let html = `
+                <div class="calendar active" id="cal-${monthKey}">
+                    <div class="calendar-header">
+                        ${year}年${month}月 - ${monthData.phase || ''}
+                        ${monthData.special ? `<br><span style="color: #fff; font-size: 0.8em;">⚡ ${monthData.special}</span>` : ''}
+                    </div>
+                    <div class="calendar-grid">
+                        <div class="calendar-day-header">日</div>
+                        <div class="calendar-day-header">一</div>
+                        <div class="calendar-day-header">二</div>
+                        <div class="calendar-day-header">三</div>
+                        <div class="calendar-day-header">四</div>
+                        <div class="calendar-day-header">五</div>
+                        <div class="calendar-day-header">六</div>
+            `;
+            
+            // 添加空白天数
+            for (let i = 0; i < startingDayOfWeek; i++) {
+                html += '<div class="calendar-day empty"></div>';
+            }
+            
+            // 添加日期
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isStartDay = monthData.startDay && day < monthData.startDay;
+                const dayClass = isStartDay ? 'calendar-day empty' : `calendar-day ${monthData.intensity || ''}`;
                 
-                if (daysDiff <= 7 && daysDiff > 0) {
-                    item.style.backgroundColor = '#ff6b6b';
-                    item.style.color = 'white';
-                    item.style.padding = '2px 6px';
-                    item.style.borderRadius = '4px';
-                } else if (daysDiff <= 0) {
-                    item.style.backgroundColor = '#d63031';
-                    item.style.color = 'white';
-                    item.style.padding = '2px 6px';
-                    item.style.borderRadius = '4px';
-                }
-            });
+                html += `
+                    <div class="${dayClass}">
+                        <div class="day-number">${day}</div>
+                        ${!isStartDay && monthData.tasks ? `
+                            <div class="day-tasks">
+                                <span class="task-indicator"></span>${monthData.tasks.split('+')[0].trim()}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            html += '</div></div>';
+            return html;
         }
 
-        // 页面加载时检查截止日期
-        window.addEventListener('load', checkDueDates);
+        function showCalendar(monthKey) {
+            // 更新按钮状态
+            document.querySelectorAll('.month-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 解析年月
+            const [year, month] = monthKey.split('-').map(Number);
+            
+            // 生成并显示日历
+            const calendarContent = document.getElementById('calendar-content');
+            calendarContent.innerHTML = generateCalendar(year, month);
+        }
+
+        // 页面加载时显示第一个月的日历
+        window.onload = function() {
+            showCalendar('2025-10');
+        };
     </script>
 </body>
 </html>
